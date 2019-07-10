@@ -1,5 +1,8 @@
 const TokenHandler = require('./handler/TokenHandler');
+const AuthoriseHandler = require('./handler/AuthoriseHandler');
+const AuthenticateHandler = require('./handler/AuthenticateHandler')
 const ValidateSettings = require('./validator/ValidateSetting');
+const ValidateRequest = require('./validator/ValidateRequest');
 
 class Oauth2 {
   constructor(settings) {
@@ -7,60 +10,36 @@ class Oauth2 {
     this.settings = settings;
   }
 
-  // async authenticate(request, options) {
-  //   const authenticate = new Authenticate(this.settings);
-  //   return authenticate
-  //     .handlerRequest(request)
-  //     .getClients()
-  //     .getScopes(options)
-  //     .authen()
-  // }
+  async authenticate(request, options = {}) {
+    const authenticate = new AuthenticateHandler(this.settings);
+    ValidateRequest(request);
+    return authenticate
+      .handlerRequest(request)
+      .then(server => server.getClients())
+      .then(server => server.authenticate(options.scopes))
+  }
 
-  // async authorise(request, options) {
-  //   const authorizationGrant = new Authorise(this.settings);
-  //   return authorizationGrant
-  //     .handlerRequest(request, options)
-  //     .getClients()
-  //     .getScopes(options)
-  //     .generateToken()
-  //     .saveToken()
-  // }
+  async authorise(request, options = {}) {
+    const authoriseHandler = new AuthoriseHandler(this.settings);
+    ValidateRequest(request);
+    return authoriseHandler
+      .handlerRequest(request, options)
+      .then(server => server.getClients())
+      .then(server => server.getScopes())
+      .then(server => server.generateToken())
+      .then(server => server.handlerSaveAuthorizationCode())
+  }
 
-  token(request, options) {
+  async token(request) {
     const grantType = TokenHandler(request, this.settings);
+    ValidateRequest(request);
     return grantType
       .handlerRequest(request)
-      .getClients()
-      .then(client => client.getScopes())
-      .then(client => client.generateToken())
-      .then(client => client.handlerSaveToken());
+      .then(server => server.getClients())
+      .then(server => server.getScopes())
+      .then(server => server.generateToken())
+      .then(server => server.handlerSaveToken());
   }
 }
 
-
-const oauth = new Oauth2({
-  generateAccessToken: function () { return "aaa" },
-  generateRefreshToken: function () { return "bbb" },
-  generateAuthorizationCode: function () { return "bbb" },
-  getRefreshToken: function() {return "bbb"},
-  getAuthorizationCode: function() {return "bbb"},
-  getUser: function () { return { id: 1, username: "aa", scopes: ["aaa", "bbb", "ccc"] } },
-  getApplication: function () { return { id: 1, name: "vv", scopes: ["aaa"], grants: ["password"] } },
-  saveToken: function () { return "aaa" },
-  getClient: function() {
-    return "dcm"
-  }
-})
-
-oauth.token({
-  headers: {
-    authorization: "Basic " + Buffer.from("1:a").toString('base64'),
-  },
-  body: {
-    username: 'aaa',
-    password: 'aaa',
-    grant_type: 'password'
-  }
-}).then(result => {
-  console.log(result)
-})
+module.exports = Oauth2;

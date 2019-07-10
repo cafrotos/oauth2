@@ -9,7 +9,7 @@ class PasswordGrant extends BaseGrant {
     this.grantType = "password"
   }
 
-  handlerRequest(request, options) {
+  async handlerRequest(request, options) {
     super.handlerRequest(request);
     if (!request.body.username) {
       throw new InvalidRequestError("Missing parameter: 'username'")

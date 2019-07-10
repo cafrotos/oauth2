@@ -10,12 +10,12 @@ class RefreshTokenGrant extends BaseGrant {
     this.grantType = "refresh_token";
   }
 
-  handlerRequest(request, options) {
+  async handlerRequest(request, options) {
     super.handlerRequest(request)
     if (!request.body.refresh_token) {
       throw new InvalidRequestError("Missing parameter: 'refresh_token'")
     }
-    this.oldRefreshToken = request.body.refresh_token;
+    this.refreshToken = request.body.refresh_token;
     return this;
   }
 
@@ -23,7 +23,7 @@ class RefreshTokenGrant extends BaseGrant {
     let refreshToken;
     let application = BasicAuth.getApplication(this.credentials);
     [refreshToken, application] = await Promise.all([
-      this.getRefreshToken(this.oldRefreshToken),
+      this.getRefreshToken(this.refreshToken),
       this.getApplication(application.id, application.secret)
     ])
     if (!refreshToken || typeof refreshToken !== 'object') {

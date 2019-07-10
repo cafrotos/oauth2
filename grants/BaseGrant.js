@@ -1,4 +1,5 @@
 const InvalidRequestError = require('../errors/InvalidRequestError');
+const InvalidClientError = require('../errors/InvalidClientError')
 const InvalidScopeError = require('../errors/InvalidScopeError');
 const InvalidArgumentError = require('../errors/InvalidArgumentError');
 const UnsupportedGrantTypeError = require('../errors/UnsupportedGrantTypeError');
@@ -14,9 +15,6 @@ class BaseGrant {
   }
 
   async handlerRequest(request) {
-    if (!request.body) {
-      throw new InvalidRequestError("Missing parameter: 'body'")
-    }
     if (!request.headers.authorization) {
       throw new InvalidRequestError("Missing parameter: 'clientId'")
     }

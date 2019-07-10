@@ -1,8 +1,10 @@
 const BaseGrant = require('./BaseGrant')
 const BasicAuth = require('../libs/BasicAuth');
+const AccessDeniedError = require('../errors/AccessDeniedError')
 const InvalidRequestError = require('../errors/InvalidRequestError');
 const InvalidClientError = require('../errors/InvalidClientError');
 const UnauthorizedRequestError = require('../errors/UnauthorizedRequestError');
+const InvalidArgumentError = require('../errors/InvalidArgumentError')
 
 class AuthorizationCodeGrant extends BaseGrant {
   constructor(settings) {
@@ -29,7 +31,7 @@ class AuthorizationCodeGrant extends BaseGrant {
       this.getAuthorizationCode(this.authorizationCode),
       this.getApplication(application.id, application.secret)
     ])
-    if(!authorizationCode || typeof authorizationCode !== 'object') {
+    if (!authorizationCode || typeof authorizationCode !== 'object') {
       throw new UnauthorizedRequestError("Authorization code invalid")
     }
 
@@ -42,7 +44,7 @@ class AuthorizationCodeGrant extends BaseGrant {
     if (!this.application) {
       throw new InvalidClientError("Application not found!")
     }
-    
+
     return super.getClients(application);
   }
 
