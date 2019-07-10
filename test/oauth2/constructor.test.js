@@ -137,6 +137,6 @@ describe("Test Oauth2 constructor.", () => {
         saveAuthorizationCode: function () { },
       })
     }
-    assert.doesNotthrow(functionTest)
+    assert.doesNotThrow(functionTest)
   })
 })
