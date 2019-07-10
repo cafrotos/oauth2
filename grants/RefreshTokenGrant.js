@@ -11,12 +11,11 @@ class RefreshTokenGrant extends BaseGrant {
   }
 
   async handlerRequest(request, options) {
-    super.handlerRequest(request)
     if (!request.body.refresh_token) {
       throw new InvalidRequestError("Missing parameter: 'refresh_token'")
     }
     this.refreshToken = request.body.refresh_token;
-    return this;
+    return super.handlerRequest(request);
   }
 
   async getClients() {

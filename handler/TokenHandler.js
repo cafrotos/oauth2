@@ -18,6 +18,6 @@ module.exports = (request, settings) => {
     case 'client_credentials':
       return new ClientCredentialsGrant(settings);
     default:
-      throw new InvalidRequestError("Grant not found");
+      throw new InvalidRequestError("Missing parameter: 'grant_type'");
   }
 }

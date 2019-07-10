@@ -17,6 +17,7 @@ class Oauth2 {
       .handlerRequest(request)
       .then(server => server.getClients())
       .then(server => server.authenticate(options.scopes))
+      .catch(error => { throw error })
   }
 
   async authorise(request, options = {}) {
@@ -38,7 +39,8 @@ class Oauth2 {
       .then(server => server.getClients())
       .then(server => server.getScopes())
       .then(server => server.generateToken())
-      .then(server => server.handlerSaveToken());
+      .then(server => server.handlerSaveToken())
+      // .catch(err => {  })
   }
 }
 

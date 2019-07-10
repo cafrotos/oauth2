@@ -10,7 +10,6 @@ class PasswordGrant extends BaseGrant {
   }
 
   async handlerRequest(request, options) {
-    super.handlerRequest(request);
     if (!request.body.username) {
       throw new InvalidRequestError("Missing parameter: 'username'")
     }
@@ -21,7 +20,7 @@ class PasswordGrant extends BaseGrant {
     this.username = request.body.username;
     this.password = request.body.password;
 
-    return this;
+    return super.handlerRequest(request)
   }
 
   async getClients() {

@@ -1,10 +1,8 @@
 const BaseGrant = require('./BaseGrant')
 const BasicAuth = require('../libs/BasicAuth');
-const AccessDeniedError = require('../errors/AccessDeniedError')
 const InvalidRequestError = require('../errors/InvalidRequestError');
 const InvalidClientError = require('../errors/InvalidClientError');
 const UnauthorizedRequestError = require('../errors/UnauthorizedRequestError');
-const InvalidArgumentError = require('../errors/InvalidArgumentError')
 
 class AuthorizationCodeGrant extends BaseGrant {
   constructor(settings) {
@@ -13,24 +11,24 @@ class AuthorizationCodeGrant extends BaseGrant {
   }
 
   async handlerRequest(request, options) {
-    super.handlerRequest(request);
-
     if (!request.body.authorization_code) {
       throw new InvalidRequestError("Missing parameter: 'authorization_code'")
     }
 
     this.authorizationCode = request.body.authorization_code;
 
-    return this;
+    return super.handlerRequest(request);;
   }
 
   async getClients() {
     let authorizationCode;
     let application = BasicAuth.getApplication(this.credentials);
+
     [authorizationCode, application] = await Promise.all([
       this.getAuthorizationCode(this.authorizationCode),
       this.getApplication(application.id, application.secret)
     ])
+
     if (!authorizationCode || typeof authorizationCode !== 'object') {
       throw new UnauthorizedRequestError("Authorization code invalid")
     }

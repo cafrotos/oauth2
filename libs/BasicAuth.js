@@ -21,8 +21,8 @@ const getApplication = (credentials) => {
   }
 
   return {
-    id: application[0],
-    secret: application[1]
+    id: application[1],
+    secret: application[2]
   }
 }
 

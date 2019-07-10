@@ -12,14 +12,12 @@ class ClientCredentialsGrant extends BaseGrant {
   }
 
   async handlerRequest(request, options) {
-    super.handlerRequest(request);
-
     if (!request.body.client_credentials) {
       throw new InvalidRequestError("Missing parameter: 'client_credentials'")
     }
 
     this.authorizationCode = request.body.client_credentials;
-    return this;
+    return super.handlerRequest(request);;
   }
 
   async getClients() {

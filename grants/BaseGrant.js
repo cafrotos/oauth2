@@ -19,6 +19,7 @@ class BaseGrant {
       throw new InvalidRequestError("Missing parameter: 'clientId'")
     }
     this.credentials = request.headers.authorization;
+    return this;
   }
 
   async getClients(application) {
