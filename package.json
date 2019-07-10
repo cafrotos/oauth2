@@ -3,13 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "typings": "index.d.ts",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha ./test/*/*.test.js"
+  "directories": {
+    "test": "test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "statuses": "^1.5.0"
   },
@@ -17,5 +13,18 @@
     "chai": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.1.4"
-  }
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha ./test/*/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minhphuong99/oauth2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minhphuong99/oauth2/issues"
+  },
+  "homepage": "https://github.com/minhphuong99/oauth2#readme"
 }
