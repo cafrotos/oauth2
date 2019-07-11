@@ -1,18 +1,26 @@
 const InvalidArgumentError = require('../errors/InvalidArgumentError');
 
 const properties = [
-  { field: "generateAccessToken", type: "function", require: true },
-  { field: "generateRefreshToken", type: "function", require: true },
-  { field: "generateAuthorizationCode", type: "function", require: true },
-  { field: "getAccessToken", type: "function", require: true },
-  { field: "getRefreshToken", type: "function", require: true },
-  { field: "getAuthorizationCode", type: "function", require: true },
+  { field: "accessTokenLifeTime", type: "number", require: false },
+  { field: "refreshTokenLifeTime", type: "number", require: false },
+  { field: "authorizationCodeLifeTime", type: "number", require: false },
+  { field: "accessTokenPrivateKey", type: "string", require: true },
+  { field: "refreshTokenPrivateKey", type: "string", require: true },
+  { field: "authorizationCodePrivateKey", type: "string", require: true },
+  { field: "generateAccessToken", type: "function", require: false },
+  { field: "generateRefreshToken", type: "function", require: false },
+  { field: "generateAuthorizationCode", type: "function", require: false },
+  { field: "getAccessToken", type: "function", require: false },
+  { field: "getRefreshToken", type: "function", require: false },
+  { field: "getAuthorizationCode", type: "function", require: false },
   { field: "getApplication", type: "function", require: true },
   { field: "getScopes", type: "function", require: false },
   { field: "getUser", type: "function", require: true },
-  { field: "saveToken", type: "function", require: true },
-  { field: "saveAuthorizationCode", type: "function", require: true }
+  { field: "saveToken", type: "function", require: false },
+  { field: "saveAuthorizationCode", type: "function", require: false }
 ]
+
+typeof a === 'string'
 
 module.exports = (settings) => {
   if (!settings) {

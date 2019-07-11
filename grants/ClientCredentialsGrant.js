@@ -23,7 +23,7 @@ class ClientCredentialsGrant extends BaseGrant {
   async getClients() {
     let application = BasicAuth.getApplication(this.credentials);
     [this.application] = await Promise.all([
-      this.getApplication(application.id, application.secret)
+      this.settings.getApplication(application.id, application.secret)
     ])
     if (!this.application) {
       throw new InvalidClientError("Application not found!")
@@ -48,13 +48,13 @@ class ClientCredentialsGrant extends BaseGrant {
 
   async generateToken() {
     [this.accessToken] = await Promise.all([
-      this.generateAccessToken(this.application, this.user, this.scopes),
+      this.settings.generateAccessToken(this.application, this.user, this.scopes),
     ])
     return this;
   }
 
   async handlerSaveToken() {
-    await this.saveToken({
+    await this.settings.saveToken({
       accessToken: this.accessToken,
       refreshToken: this.refreshToken
     }, this.application, this.user)

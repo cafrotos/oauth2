@@ -24,9 +24,9 @@ class AuthorizationCodeGrant extends BaseGrant {
     let authorizationCode;
     let application = BasicAuth.getApplication(this.credentials);
 
-    [authorizationCode, application] = await Promise.all([
-      this.getAuthorizationCode(this.authorizationCode),
-      this.getApplication(application.id, application.secret)
+    [authorizationCode, this.application] = await Promise.all([
+      this.settings.getAuthorizationCode(this.authorizationCode),
+      this.settings.getApplication(application.id, application.secret)
     ])
 
     if (!authorizationCode || typeof authorizationCode !== 'object') {
@@ -34,7 +34,6 @@ class AuthorizationCodeGrant extends BaseGrant {
     }
 
     this.user = authorizationCode.user;
-    this.application = authorizationCode.application;
 
     if (!this.user) {
       throw new InvalidClientError("User not found!")
@@ -43,11 +42,11 @@ class AuthorizationCodeGrant extends BaseGrant {
       throw new InvalidClientError("Application not found!")
     }
 
-    return super.getClients(application);
+    return super.getClients(authorizationCode.application);
   }
 
   async handlerSaveToken() {
-    await this.saveToken({
+    await this.settings.saveToken({
       accessToken: this.accessToken,
       refreshToken: this.refreshToken
     }, this.application, this.user)

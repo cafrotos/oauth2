@@ -6,24 +6,19 @@ const UnsupportedGrantTypeError = require('../errors/UnsupportedGrantTypeError')
 
 class BaseGrant {
   constructor(settings) {
-    Object.keys(settings).map(key => {
-      if (typeof settings[key] === 'function') {
-        this.__proto__[key] = settings[key];
-      }
-      else this[key] = settings[key];
-    })
+    this.settings = settings;
   }
 
   async handlerRequest(request) {
     if (!request.headers.authorization) {
-      throw new InvalidRequestError("Missing parameter: 'clientId'")
+      throw new InvalidRequestError("Missing parameter: 'authorization'")
     }
     this.credentials = request.headers.authorization;
     return this;
   }
 
   async getClients(application) {
-    if (application && JSON.stringify(application) !== JSON.stringify(this.application)) {
+    if (application && application.name !== this.application.name) {
       throw new InvalidClientError("Can't refresh token with other application")
     }
     if (!this.application.grants) {
@@ -71,10 +66,13 @@ class BaseGrant {
   }
 
   async generateToken() {
-    [this.accessToken, this.refreshToken] = await Promise.all([
-      this.generateAccessToken(this.application, this.user, this.scopes),
-      this.generateRefreshToken(this.application, this.user, this.scopes)
-    ])
+    let fns = [this.settings.generateAccessToken(this.application, this.user, this.scopes)];
+
+    if (this.application.grants.includes('refresh_token')) {
+      fns.push(this.settings.generateRefreshToken(this.application, this.user, this.scopes))
+    }
+
+    [this.accessToken, this.refreshToken] = await Promise.all(fns)
     return this;
   }
 
@@ -87,6 +85,7 @@ class BaseGrant {
       application: {
         id: this.application.id,
         name: this.application.name,
+        roles: this.application.roles,
       },
       accessToken: this.accessToken,
       refreshToken: this.refreshToken

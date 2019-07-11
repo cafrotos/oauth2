@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}\\test\\oauth2\\grantsToken.test.js"
+      "program": "${workspaceFolder}\\test\\god.js"
     }
   ]
 }

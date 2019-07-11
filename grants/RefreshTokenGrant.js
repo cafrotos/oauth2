@@ -21,16 +21,15 @@ class RefreshTokenGrant extends BaseGrant {
   async getClients() {
     let refreshToken;
     let application = BasicAuth.getApplication(this.credentials);
-    [refreshToken, application] = await Promise.all([
-      this.getRefreshToken(this.refreshToken),
-      this.getApplication(application.id, application.secret)
+    [refreshToken, this.application] = await Promise.all([
+      this.settings.getRefreshToken(this.refreshToken),
+      this.settings.getApplication(application.id, application.secret)
     ])
     if (!refreshToken || typeof refreshToken !== 'object') {
       throw new UnauthorizedRequestError("Refresh token invalid")
     }
 
-    this.user = refreshToken.user
-    this.application = refreshToken.application
+    this.user = refreshToken.user;
 
     if (!this.user) {
       throw new InvalidClientError("User not found!")
@@ -39,19 +38,11 @@ class RefreshTokenGrant extends BaseGrant {
       throw new InvalidClientError("Application not found!")
     }
 
-    return super.getClients(application);
-  }
-
-  async generateToken() {
-    [this.accessToken, this.refreshToken] = await Promise.all([
-      this.generateAccessToken(this.application, this.user, this.scopes),
-      this.generateRefreshToken(this.application, this.user, this.scopes)
-    ])
-    return this;
+    return super.getClients(refreshToken.application);
   }
 
   async handlerSaveToken() {
-    await this.saveToken({
+    await this.settings.saveToken({
       accessToken: this.accessToken,
       refreshToken: this.refreshToken
     }, this.application, this.user)

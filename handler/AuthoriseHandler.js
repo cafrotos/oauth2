@@ -56,25 +56,25 @@ class AuthoriseHandler {
     if (!this.application) {
       throw new InvalidRequestError("Parameter 'client_id' invalid");
     }
-    if (!appUserSignin.grants || !this.application.grants) {
+    if (!this.application.grants) {
       throw new InvalidArgumentError("Missing parameter: 'application.grants'")
     }
-    if (!appUserSignin.grants instanceof Array || !this.application.grants instanceof Array) {
+    if (!this.application.grants instanceof Array) {
       throw new InvalidArgumentError("Parameter 'application.grants' must be Array");
     }
-    if (!appUserSignin.grants.includes('password')) {
+    if (!appUserSignin.roles === "OFFICIAL") {
       throw new UnauthorizedClientError("Permistion Denied");
     }
     if (!this.application.grants.includes('authorization_code')) {
       throw new UnsupportedGrantTypeError("Application not support grant")
     }
-    if(!this.application.redirectUris) {
+    if (!this.application.redirectUris) {
       throw new InvalidArgumentError("Missing parameter: 'application.redirectUris'")
     }
-    if(!this.application.redirectUris instanceof Array) {
+    if (!this.application.redirectUris instanceof Array) {
       throw new InvalidArgumentError("Parameter 'application.redirectUris' must be Array")
     }
-    if(!this.application.redirectUris.includes(this.redirectUri)) {
+    if (!this.application.redirectUris.includes(this.redirectUri)) {
       throw new InvalidArgumentError("redirect_uri invalid")
     }
     return this;

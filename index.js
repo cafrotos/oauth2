@@ -3,11 +3,12 @@ const AuthoriseHandler = require('./handler/AuthoriseHandler');
 const AuthenticateHandler = require('./handler/AuthenticateHandler')
 const ValidateSettings = require('./validator/ValidateSetting');
 const ValidateRequest = require('./validator/ValidateRequest');
+const BaseSetting = require('./libs/BaseSettings');
 
 class Oauth2 {
   constructor(settings) {
     ValidateSettings(settings)
-    this.settings = settings;
+    this.settings = new BaseSetting(settings);
   }
 
   async authenticate(request, options = {}) {
@@ -17,7 +18,6 @@ class Oauth2 {
       .handlerRequest(request)
       .then(server => server.getClients())
       .then(server => server.authenticate(options.scopes))
-      .catch(error => { throw error })
   }
 
   async authorise(request, options = {}) {
@@ -40,7 +40,6 @@ class Oauth2 {
       .then(server => server.getScopes())
       .then(server => server.generateToken())
       .then(server => server.handlerSaveToken())
-      // .catch(err => {  })
   }
 }
 

@@ -3,24 +3,8 @@ const Oauth2 = require('../..');
 const Models = require('../models');
 
 describe("Test grants token", () => {
-  let auth = new Oauth2(Models);
   describe("Password Grant Test", () => {
-    it("Success", () => {
-      let request = {
-        headers: {
-          authorization: 'Basic ' + Buffer.from("1:panda").toString('base64')
-        },
-        body: {
-          username: 'userone',
-          password: 'passwordone',
-          grant_type: 'password'
-        }
-      }
-      function test() {
-        return auth.token(request);
-      }
-      assert.doesNotThrow(test)
-    })
+    let auth = new Oauth2(Models);
     it("Failures: Missing parameter 'client_id'", () => {
       let request = {
         headers: {
@@ -34,7 +18,7 @@ describe("Test grants token", () => {
       auth.token(request)
         .then(value => assert.equal(true, false))
         .catch(err => {
-          assert.equal(err.message, "Missing parameter: 'clientId'")
+          assert.equal(err.message, "Missing parameter: 'authorization'")
         })
     })
     it("Failures: Missing parameter 'username'", () => {
@@ -87,8 +71,25 @@ describe("Test grants token", () => {
           assert.equal(err.message, "Missing parameter: 'grant_type'")
         })
     })
+    it("Success", () => {
+      let request = {
+        headers: {
+          authorization: 'Basic ' + Buffer.from("1:panda").toString('base64')
+        },
+        body: {
+          username: 'usertwo',
+          password: 'passwordone',
+          grant_type: 'password'
+        }
+      }
+      function test() {
+        return auth.token(request);
+      }
+      assert.doesNotThrow(test)
+    })
   })
   describe("Refresh token grant Test", () => {
+    let auth = new Oauth2(Models);
     let refreshToken
     before("Get refresh token", async () => {
       let request = {

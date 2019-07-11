@@ -5,6 +5,12 @@ module.exports = {
       username: 'userone',
       password: 'passwordone',
       scopes: ['orders:read', 'orders:write']
+    },
+    {
+      id: 2,
+      username: 'usertwo',
+      password: 'passwordone',
+      scopes: ['orders:read', 'orders:write']
     }
   ],
   applications: [
@@ -13,6 +19,7 @@ module.exports = {
       name: 'panda',
       secret: 'panda',
       grants: ['password', 'refresh_token'],
+      roles: 'OFFICIAL',
       scopes: ['*']
     },
     {
@@ -20,6 +27,7 @@ module.exports = {
       name: 'authorise',
       secret: 'authorise',
       grants: ['authorization_code'],
+      roles: 'PARTNER',
       scopes: ['orders:read'],
       redirectUris: ['https://localhost:4000']
     },
@@ -28,6 +36,7 @@ module.exports = {
       name: 'credential',
       secret: 'credential',
       grants: ['client_credentials'],
+      roles: 'PARTNER',
       scopes: ['*']
     }
   ]

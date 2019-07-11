@@ -26,8 +26,8 @@ class PasswordGrant extends BaseGrant {
   async getClients() {
     let application = BasicAuth.getApplication(this.credentials);
     [this.user, this.application] = await Promise.all([
-      this.getUser(this.username, this.password),
-      this.getApplication(application.id, application.secret)
+      this.settings.getUser(this.username, this.password),
+      this.settings.getApplication(application.id, application.secret)
     ])
     if (!this.user) {
       throw new InvalidClientError("User not found!")
@@ -39,7 +39,7 @@ class PasswordGrant extends BaseGrant {
   }
 
   async handlerSaveToken() {
-    await this.saveToken({
+    await this.settings.saveToken({
       accessToken: this.accessToken,
       refreshToken: this.refreshToken
     }, this.application, this.user)
