@@ -6,12 +6,7 @@ const UnsupportedGrantTypeError = require('../errors/UnsupportedGrantTypeError')
 
 class AuthoriseHandler {
   constructor(settings) {
-    Object.keys(settings).map(key => {
-      if (typeof settings[key] === 'function') {
-        this.__proto__[key] = settings[key];
-      }
-      else this[key] = settings[key]
-    })
+    this.settings = settings;
   }
 
   async handlerRequest(request, options) {
@@ -40,8 +35,8 @@ class AuthoriseHandler {
     let accessToken;
     let application = BasicAuth.getApplication(this.credentials);
     [accessToken, this.application] = await Promise.all([
-      this.getAccessToken(this.accessToken),
-      this.getApplication(application.id, application.secret)
+      this.settings.getAccessToken(this.accessToken),
+      this.settings.getApplication(application.id, application.secret)
     ])
     if (!accessToken || typeof accessToken !== 'object') {
       throw new UnauthorizedClientError("Permistion Denied");
@@ -113,12 +108,12 @@ class AuthoriseHandler {
   }
 
   async generateToken() {
-    this.authorizationCode = await this.generateAuthorizationCode(this.application, this.user, this.scopes);
+    this.authorizationCode = await this.settings.generateAuthorizationCode(this.application, this.user, this.scopes);
     return this;
   }
 
   async handlerSaveAuthorizationCode() {
-    await this.saveAuthorizationCode(this.authorizationCode, this.application, this.user);
+    await this.settings.saveAuthorizationCode(this.authorizationCode, this.application, this.user);
     return {
       application: {
         id: this.application.id,

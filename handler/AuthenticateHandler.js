@@ -4,12 +4,7 @@ const InvalidArgumentError = require('../errors/InvalidArgumentError')
 
 class AuthenticateHandler {
   constructor(settings) {
-    Object.keys(settings).map(key => {
-      if (typeof settings[key] === 'function') {
-        this.__proto__[key] = settings[key];
-      }
-      else this[key] = settings[key]
-    })
+    this.settings = settings;
   }
 
   async handlerRequest(request, options) {
@@ -21,7 +16,7 @@ class AuthenticateHandler {
   }
 
   async getClients() {
-    let accessToken = await this.getAccessToken(this.accessToken);
+    let accessToken = await this.settings.getAccessToken(this.accessToken);
     if (!accessToken || typeof accessToken !== 'object' || !accessToken.user || !accessToken.application || !accessToken.scopes) {
       throw new AccessDeniedError("Permission Denied");
     }
