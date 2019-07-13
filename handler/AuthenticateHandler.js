@@ -31,8 +31,12 @@ class AuthenticateHandler {
       if (!scopes instanceof Array) {
         throw new InvalidArgumentError("Parameter 'options.scopes' must be Array")
       }
-      if (scopes.length > 0 && JSON.stringify(scopes) !== JSON.stringify(this.scopes)) {
-        throw new AccessDeniedError("Permission Denied")
+      if (scopes.length > 0) {
+        scopes.map(scope => {
+          if(!this.scopes.includes(scope)) {
+            throw new AccessDeniedError("Permission Denied")
+          }
+        })
       }
     }
     return {
