@@ -36,8 +36,14 @@ class AuthenticateHandler {
       }
     }
     return {
-      user: this.user,
-      application: this.application,
+      user: {
+        id: this.user.id,
+        username: this.user.username
+      },
+      application: {
+        id: this.application.id,
+        name: this.application.name
+      },
       scopes: this.scopes
     }
   }
