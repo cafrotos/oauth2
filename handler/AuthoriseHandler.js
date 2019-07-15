@@ -123,8 +123,7 @@ class AuthoriseHandler {
         id: this.user.id,
         name: this.user.name
       },
-      authorizationCode: this.authorizationCode,
-      state: this.state
+      redirectUri: `${this.redirectUri}?code=${this.authorizationCode}&state=${this.state}`,
     }
   }
 }
