@@ -1,10 +1,6 @@
 const InvalidRequestError = require('../errors/InvalidRequestError');
 const InvalidArgumentError = require('../errors/InvalidArgumentError')
-
-const properties = [
-  "headers",
-  "body"
-]
+const { REQUEST_PROPERTIES } = require('../constants')
 
 module.exports = (request) => {
   if (!request) {
@@ -15,7 +11,7 @@ module.exports = (request) => {
   }
 
   let requestKeys = Object.keys(request);
-  properties.map(property => {
+  REQUEST_PROPERTIES.map(property => {
     if (!requestKeys.includes(property)) {
       throw new InvalidRequestError(`Missing parameter 'request.${property}'`)
     }
