@@ -23,7 +23,6 @@ class BaseSetting {
       user: {
         id: user.id,
         username: user.username,
-        section: user.section
       },
       scopes,
       exp: Math.floor(Date.now() / 1000) + this.accessTokenLifeTime
@@ -40,7 +39,6 @@ class BaseSetting {
       user: {
         id: user.id,
         username: user.username,
-        section: user.section
       },
       scopes,
       exp: Math.floor(Date.now() / 1000) + this.refreshTokenLifeTime
@@ -57,7 +55,6 @@ class BaseSetting {
       user: {
         id: user.id,
         username: user.username,
-        section: user.section
       },
       scopes,
       exp: Math.floor(Date.now() / 1000) + this.authorizationCodeLifeTime

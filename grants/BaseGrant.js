@@ -88,7 +88,8 @@ class BaseGrant {
         roles: this.application.roles,
       },
       accessToken: this.accessToken,
-      refreshToken: this.refreshToken
+      refreshToken: this.refreshToken,
+      scopes: this.scopes
     }
   }
 }
