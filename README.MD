@@ -20,6 +20,7 @@ const oauth = new Oauth2(settings);
 ```
 
 - Parameter settings có các tham số như sau:
+
 | Parameter | Example | Description | Required |
 |-----------|---------|-------------|----------|
 | accessTokenPrivateKey | "accesstoken" | Access token private key | true | 
