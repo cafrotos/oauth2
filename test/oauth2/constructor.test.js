@@ -8,30 +8,30 @@ describe("Test Oauth2 constructor.", () => {
     }
     assert.throws(functionTest, "Missing parameter: 'settings'")
   })
-  it("Failures: Missing parameter settings.accessTokenPrivateKey", () => {
+  it("Failures: Missing parameter accessTokenPrivateKey", () => {
     const functionTest = () => {
       new Oauth2({})
     }
-    assert.throws(functionTest, "Missing parameter: 'settings.accessTokenPrivateKey'")
+    assert.throws(functionTest, "Missing parameter: 'accessTokenPrivateKey'")
   })
-  it("Failures: Missing parameter settings.refreshTokenPrivateKey", () => {
+  it("Failures: Missing parameter refreshTokenPrivateKey", () => {
     const functionTest = () => {
       new Oauth2({
         accessTokenPrivateKey: 'accesstoken'
       })
     }
-    assert.throws(functionTest, "Missing parameter: 'settings.refreshTokenPrivateKey'")
+    assert.throws(functionTest, "Missing parameter: 'refreshTokenPrivateKey'")
   })
-  it("Failures: Missing parameter settings.authorizationCodePrivateKey", () => {
+  it("Failures: Missing parameter authorizationCodePrivateKey", () => {
     const functionTest = () => {
       new Oauth2({
         accessTokenPrivateKey: 'accesstoken',
         refreshTokenPrivateKey: 'function () { }'
       })
     }
-    assert.throws(functionTest, "Missing parameter: 'settings.authorizationCodePrivateKey'")
+    assert.throws(functionTest, "Missing parameter: 'authorizationCodePrivateKey'")
   })
-  it("Failures: Missing parameter settings.getApplication", () => {
+  it("Failures: Missing parameter models", () => {
     const functionTest = () => {
       new Oauth2({
         accessTokenPrivateKey: 'accesstoken',
@@ -39,18 +39,33 @@ describe("Test Oauth2 constructor.", () => {
         authorizationCodePrivateKey: 'function () { }',
       })
     }
-    assert.throws(functionTest, "Missing parameter: 'settings.getApplication'")
+    assert.throws(functionTest, "Missing parameter: 'models'")
   })
-  it("Failures: Missing parameter settings.getUser", () => {
+  it("Failures: Missing parameter getApplication", () => {
     const functionTest = () => {
       new Oauth2({
         accessTokenPrivateKey: 'accesstoken',
         refreshTokenPrivateKey: 'function () { }',
         authorizationCodePrivateKey: 'function () { }',
-        getApplication: function () { },
+        models: {
+
+        }
       })
     }
-    assert.throws(functionTest, "Missing parameter: 'settings.getUser'")
+    assert.throws(functionTest, "Missing parameter: 'getApplication'")
+  })
+  it("Failures: Missing parameter getUser", () => {
+    const functionTest = () => {
+      new Oauth2({
+        accessTokenPrivateKey: 'accesstoken',
+        refreshTokenPrivateKey: 'function () { }',
+        authorizationCodePrivateKey: 'function () { }',
+        models: {
+          getApplication: function () { },
+        }
+      })
+    }
+    assert.throws(functionTest, "Missing parameter: 'getUser'")
   })
   it("Success: Create Oauth2 success", () => {
     const functionTest = () => {
@@ -58,8 +73,10 @@ describe("Test Oauth2 constructor.", () => {
         accessTokenPrivateKey: 'accesstoken',
         refreshTokenPrivateKey: 'function () { }',
         authorizationCodePrivateKey: 'function () { }',
-        getApplication: function () { },
-        getUser: function () { },
+        models: {
+          getApplication: function () { },
+          getUser: function () { },
+        }
       })
     }
     assert.doesNotThrow(functionTest)

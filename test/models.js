@@ -12,8 +12,10 @@ module.exports = {
   accessTokenPrivateKey: "accesstoken",
   refreshTokenPrivateKey: "accesstoken",
   authorizationCodePrivateKey: "accesstoken",
-  getApplication,
-  getUser,
+  models: {
+    getApplication,
+    getUser,
+  }
 }
 
 function getApplication(appId, appSecret) {

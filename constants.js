@@ -16,6 +16,10 @@ const SETTINGS_PROPERTIES = [
   { field: "accessTokenPrivateKey", type: "string", require: true },
   { field: "refreshTokenPrivateKey", type: "string", require: true },
   { field: "authorizationCodePrivateKey", type: "string", require: true },
+  { field: "models", type: "object", require: true },
+]
+
+const MODELS_PROPERTIES = [
   { field: "generateAccessToken", type: "function", require: false },
   { field: "generateRefreshToken", type: "function", require: false },
   { field: "generateAuthorizationCode", type: "function", require: false },
@@ -32,5 +36,6 @@ const SETTINGS_PROPERTIES = [
 module.exports = {
   TOKEN_LIFE_TIME,
   REQUEST_PROPERTIES,
-  SETTINGS_PROPERTIES
+  SETTINGS_PROPERTIES,
+  MODELS_PROPERTIES
 }
