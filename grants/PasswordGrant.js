@@ -1,7 +1,7 @@
 const BaseGrant = require('./BaseGrant');
 const BasicAuth = require('../libs/BasicAuth');
 const InvalidRequestError = require('../errors/InvalidRequestError');
-const InvalidClientError = require('../errors/InvalidClientError')
+const InvalidApplicationError = require('../errors/InvalidApplicationError')
 
 class PasswordGrant extends BaseGrant {
   constructor(settings) {
@@ -30,10 +30,10 @@ class PasswordGrant extends BaseGrant {
       this.settings.getApplication(application.id, application.secret)
     ])
     if (!this.user) {
-      throw new InvalidClientError("User not found!")
+      throw new InvalidApplicationError("User not found!")
     }
     if (!this.application) {
-      throw new InvalidClientError("Application not found!")
+      throw new InvalidApplicationError("Application not found!")
     }
     return super.getClients();
   }

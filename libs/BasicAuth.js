@@ -27,8 +27,11 @@ const getApplication = (credentials) => {
 }
 
 module.exports = (request) => {
-  if (!request || !request.headers) {
+  if (!request) {
     throw new InvalidRequestError("Missing parameter: 'request'")
+  }
+  if (!request.headers) {
+    throw new InvalidRequestError("Missing parameter: 'headers'")
   }
   return getApplication(request.headers.authorization);
 }

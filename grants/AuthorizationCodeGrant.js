@@ -1,7 +1,7 @@
 const BaseGrant = require('./BaseGrant')
 const BasicAuth = require('../libs/BasicAuth');
 const InvalidRequestError = require('../errors/InvalidRequestError');
-const InvalidClientError = require('../errors/InvalidClientError');
+const InvalidApplicationError = require('../errors/InvalidApplicationError');
 const UnauthorizedRequestError = require('../errors/UnauthorizedRequestError');
 
 class AuthorizationCodeGrant extends BaseGrant {
@@ -36,10 +36,10 @@ class AuthorizationCodeGrant extends BaseGrant {
     this.user = authorizationCode.user;
 
     if (!this.user) {
-      throw new InvalidClientError("User not found!")
+      throw new InvalidApplicationError("User not found!")
     }
     if (!this.application) {
-      throw new InvalidClientError("Application not found!")
+      throw new InvalidApplicationError("Application not found!")
     }
 
     return super.getClients(authorizationCode.application);

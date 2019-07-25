@@ -1,5 +1,5 @@
 const InvalidRequestError = require('../errors/InvalidRequestError');
-const InvalidClientError = require('../errors/InvalidClientError')
+const InvalidApplicationError = require('../errors/InvalidApplicationError')
 const InvalidScopeError = require('../errors/InvalidScopeError');
 const InvalidArgumentError = require('../errors/InvalidArgumentError');
 const UnsupportedGrantTypeError = require('../errors/UnsupportedGrantTypeError');
@@ -19,7 +19,7 @@ class BaseGrant {
 
   async getClients(application) {
     if (application && application.name !== this.application.name) {
-      throw new InvalidClientError("Can't refresh token with other application")
+      throw new InvalidApplicationError("Can't refresh token with other application")
     }
     if (!this.application.grants) {
       throw new InvalidArgumentError("Missing parameter: 'application.grants'");

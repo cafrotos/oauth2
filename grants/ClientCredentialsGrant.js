@@ -1,7 +1,7 @@
 const BaseGrant = require('./BaseGrant');
 const BasicAuth = require('../libs/BasicAuth');
 const InvalidRequestError = require('../errors/InvalidRequestError');
-const InvalidClientError = require('../errors/InvalidClientError');
+const InvalidApplicationError = require('../errors/InvalidApplicationError');
 const InvalidArgumentError = require('../errors/InvalidArgumentError');
 const InvalidScopeError = require('../errors/InvalidScopeError');
 
@@ -26,7 +26,7 @@ class ClientCredentialsGrant extends BaseGrant {
       this.settings.getApplication(application.id, application.secret)
     ])
     if (!this.application) {
-      throw new InvalidClientError("Application not found!")
+      throw new InvalidApplicationError("Application not found!")
     }
 
     return this.getClients();
