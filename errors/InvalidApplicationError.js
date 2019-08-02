@@ -4,11 +4,11 @@ const OAuthError = require('./OauthError');
  * Constructor.
  */
 
-class InvalidClientError extends OAuthError {
+class InvalidApplicationError extends OAuthError {
   constructor(message, properties) {
     properties = Object.assign({
       code: 400,
-      name: 'invalid_client'
+      name: 'invalid_application'
     }, properties);
 
     super(message, properties)
@@ -19,4 +19,4 @@ class InvalidClientError extends OAuthError {
  * Export constructor.
  */
 
-module.exports = InvalidClientError;
+module.exports = InvalidApplicationError;
